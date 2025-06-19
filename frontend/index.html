@@ -13,8 +13,23 @@
 <body>
   <h1>Cabbar VIP'e Hoş Geldin</h1>
   <p>VIP üyelik için 250 yıldız gerekir.</p>
-  <button onclick="Telegram.WebApp.showAlert('Bu buton ödeme başlatmak için kullanılacak.')">
+  <button>
     ⭐ VIP Ol (250⭐)
   </button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    const initData = tg.initData;
+
+    document.querySelector("button").addEventListener("click", () => {
+      fetch(`/create-stars-form?amount=250&initData=${encodeURIComponent(initData)}`)
+        .then(res => res.json())
+        .then(data => {
+          tg.openTelegramLink(data.payment_url); // Stars ödeme formunu açar
+        });
+    });
+  </script>
 </body>
 </html>
